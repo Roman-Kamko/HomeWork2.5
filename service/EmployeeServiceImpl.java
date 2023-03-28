@@ -1,6 +1,8 @@
 package edu.skypro.homework.service;
 
 import edu.skypro.homework.domain.Employee;
+import edu.skypro.homework.exceptions.EmployeeAlreadyAddedException;
+import edu.skypro.homework.exceptions.EmployeeNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,39 +14,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName) {
-        employeeList.add(new Employee(firstName, lastName));
-        return employeeList.get(employeeList.size() - 1);
+        Employee employee = new Employee(firstName, lastName);
+        if (employeeList.contains(employee)) {
+            throw new EmployeeAlreadyAddedException("Данный сотрудник уже существует");
+        }
+        employeeList.add(employee);
+        return employee;
     }
 
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
-        for (int i = 0; i < employeeList.size(); i++) {
-            if
-                (
-                    employeeList.get(i).getFirstName().equals(firstName) &&
-                    employeeList.get(i).getLastName().equals(lastName)
-                )
-            {
-                employeeList.remove(i);
-                return employeeList.get(i);
-            }
+        Employee employee = new Employee(firstName, lastName);
+        if (!employeeList.contains(employee)) {
+            throw new EmployeeNotFoundException("Данный сотрудник не существует в системе");
         }
-        return employeeList.get(0); // заглушка
+        employeeList.remove(employee);
+        return employee;
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        for (Employee employee : employeeList) {
-            if
-                (
-                    employee.getFirstName().equals(firstName) &&
-                    employee.getLastName().equals(lastName)
-                )
-            {
-                return employee;
-            }
+        Employee employee = new Employee(firstName, lastName);
+        if (!employeeList.contains(employee)) {
+            throw new EmployeeNotFoundException("Данный сотрудник не существует в системе");
         }
-        return employeeList.get(0); // заглушка
+        return employee;
     }
 
     @Override
