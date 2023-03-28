@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.*;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -22,23 +22,23 @@ public class EmployeeController {
     @GetMapping(path = "/add")
     public Employee addEmployee(@RequestParam("firstName") String firstName,
                                 @RequestParam("lastName") String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+        return employeeService.add(firstName, lastName);
     }
 
     @GetMapping(path = "/remove")
     public Employee rempveEmployee(@RequestParam("firstName") String firstName,
                                    @RequestParam("lastName") String lastName) {
-        return employeeService.removeEmployee(firstName, lastName);
+        return employeeService.remove(firstName, lastName);
     }
 
     @GetMapping(path = "/find")
     public Employee findEmployee(@RequestParam("firstName") String firstName,
                                  @RequestParam("lastName") String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+        return employeeService.find(firstName, lastName);
     }
 
     @GetMapping(path = "/printEmployeeList")
-    public List<Employee> printEmployeeList() {
-        return employeeService.printEmployeeList();
+    public Collection<Employee> printEmployeeList() {
+        return employeeService.printAll();
     }
 }
